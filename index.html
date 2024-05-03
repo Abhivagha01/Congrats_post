@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table with Images</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+        </script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/cloudinary-core/2.11.0/cloudinary-core-shrinkwrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Moon+Dance&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+
+        .hidden {
+            display: none;
+        }
+
+        .student-image {
+            position: relative;
+        }
+
+        .student-image .stident-info {
+            position: absolute;
+            left: 0;
+            background: #fefefe;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            z-index: -1;
+            right: 0;
+            text-align: center;
+        }
+
+        .student-image .stident-info .title {
+            font-size: 40px;
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            margin-top: 100px;
+            line-height: 20px;
+        }
+
+        .stident-info .con {
+            font-family: "Moon Dance", cursive;
+            font-size: 38px;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+
+        .student-image .stident-info .mob {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 15px;
+            letter-spacing: 1.2px;
+            color: #F07F19;
+            font-family: "Poppins", sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+        }
+
+        .student-image img {
+            width: 100%;
+        }
+
+        .student-image .stident-info .image img {
+            border: 6px solid #211d54;
+            border-radius: 50%;
+            width: 230px;
+            height: 230px;
+        }
+
+        .student-image .stident-info .image {
+            width: 230px;
+            height: 230px;
+            margin: auto;
+        }
+
+        .student-image .stident-info .student_name {
+            font-size: 28px;
+            margin: 5px 0;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .student-image .stident-info .per {
+            background: #211d54;
+            width: auto;
+            display: inline-block;
+            padding: 5px 13px;
+            color: #fff;
+            border-radius: 19px;
+            font-weight: 700;
+            line-height: 24px;
+        }
+
+        .student-banner {
+            max-width: 600px;
+            width: 100%;
+        }
+    </style>
+    <script>
+        function addRow() {
+            var fullname = document.getElementById("fullname").value;
+            var percentage = document.getElementById("percentage").value;
+            document.querySelector('.student_name').innerHTML = fullname;
+            document.querySelector('.per').innerHTML = percentage + "%";
+            document.querySelector('.student-banner').classList.remove('hidden');
+        }
+
+        function previewImage(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                var image = new Image();
+                image.src = reader.result;
+                image.classList.add('img-fluid');
+                document.querySelector('.image').innerHTML = '';
+                document.querySelector('.image').appendChild(image);
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+        function downloadBanner() {
+            const banner = document.querySelector('.student-banner');
+            const clonedBanner = banner.cloneNode(true);
+            var fullname = document.getElementById("fullname").value;
+            var percentage = document.getElementById("percentage").value;
+            clonedBanner.querySelector('.student_name').innerHTML = fullname;
+            clonedBanner.querySelector('.per').innerHTML = percentage + "%";
+            clonedBanner.style.backgroundImage = 'url("student-back.png")';
+            clonedBanner.style.overflow = 'hidden';
+            const images = clonedBanner.querySelectorAll('.student-image .stident-info .image img');
+            images.forEach(image => {
+                image.style.borderRadius = '50%';
+                image.style.border = '6px solid #211d54';
+                image.style.width = '230px';
+                image.style.height = '230px';
+            });
+
+            document.body.appendChild(clonedBanner);
+            html2canvas(clonedBanner, {
+                scale: 2,
+                useCORS: true,
+                logging: true,
+                letterRendering: 1,
+                onclone: function (documentClone) {
+                    documentClone.body.appendChild(clonedBanner);
+                }
+            }).then(canvas => {
+                const imageData = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = imageData;
+                link.download = 'student_banner.png';
+                link.click();
+                document.body.removeChild(clonedBanner);
+            }).catch(err => {
+                console.error('Error capturing canvas.', err);
+                document.body.removeChild(clonedBanner);
+            });
+        }
+
+
+    </script>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <div class="form-group">
+            <label for="fullname">Full Name:</label>
+            <input type="text" id="fullname" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="percentage">Percentage:</label>
+            <input type="number" id="percentage" class="form-control" min="0" max="100">
+        </div>
+        <div class="form-group">
+            <label for="image">Image:</label>
+            <input type="file" id="imageInput" class="form-control" accept="image/*" onchange="previewImage(event)">
+            <img id="previewImage" src="#" alt="Preview" class="hidden" width="100" height="100">
+        </div>
+        <div class="form-group">
+            <button onclick="addRow()">Add Post</button>
+            <button onclick="downloadBanner()">Download Banner</button>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="student-banner hidden">
+                    <div class="student-image">
+                        <img src="stuent-back.png" alt="student" width="600" height="600">
+                        <div class="stident-info">
+                            <div class="title">JBS EDUCATION</div>
+                            <div class="con">Congratulations</div>
+                            <div class="image">
+                            </div>
+                            <div class="student_name"></div>
+                            <div class="per"></div>
+                            <div class="mob">MO:82008 63163</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
