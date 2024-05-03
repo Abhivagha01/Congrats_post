@@ -151,6 +151,36 @@
             max-width: 600px;
             width: 100%;
         }
+
+        @media(max-width:640px) {
+            .student-image .stident-info .title {
+                font-size: 28px;
+            }
+
+            .student-image .stident-info .student_name {
+                font-size: 16px;
+            }
+
+            .student-image .stident-info .mob {
+                font-size: 14px;
+                padding: 0;
+            }
+        }
+
+        @media(max-width:479px) {
+            .student-image .stident-info .title {
+                font-size: 28px;
+            }
+
+            .student-image .stident-info .student_name {
+                font-size: 16px;
+            }
+
+            .student-image .stident-info .mob {
+                font-size: 11px;
+                padding: 0;
+            }
+        }
     </style>
     <script>
         function addRow() {
@@ -182,8 +212,11 @@
             var percentage = document.getElementById("percentage").value;
             clonedBanner.querySelector('.student_name').innerHTML = fullname;
             clonedBanner.querySelector('.per').innerHTML = percentage + "%";
+
             clonedBanner.style.backgroundImage = 'url("student-back.png")';
             clonedBanner.style.overflow = 'hidden';
+            clonedBanner.style.width = '600px';
+            clonedBanner.style.height = '600px';
             const images = clonedBanner.querySelectorAll('.student-image .stident-info .image img');
             images.forEach(image => {
                 image.style.borderRadius = '50%';
